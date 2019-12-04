@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+	<select id="selectjoin">
+		select a.id,a.name,a.email,b.id,b.name,b.pw 
+		from members a join members b on(a.id=b.id)
+	</select>
+	
+	<!-- sql.member.select => 해당 select문이 실행돼 -->
+	<select id="selectMember" parameterType="string"
+		resultType="member">
+		select id,pw,name,email from members
+		where id = #{id}
+	</select>
+	<insert id="insertMember" parameterType="member">
+		insert into
+		members(id,pw,name,email)
+		values(#{id},#{pw},#{name},#{email})
+	</insert>
+	
+	<select id="selectMembers" parameterType="member" resultType="member">
+		select id,pw,name,email
+		from members
+		order by id
+	</select>
+
+	<!-- 동적sql조합 값이 넘어오면 값 사용하고 값 없으면 없는걸로 처리 -->
+	<select id="selectif" parameterType="string" resultType="member">
+		select id,name,email from members
+		<where>
+			<if test="name != null">
+				and where name= #{name}
+			</if>
+			<if test="id != null">
+				and id=#{id}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectchoose" parameterType="string"
+		resultType="member">
+		select id,name,email
+		from members
+		<where>
+			<choose>
+				<when test="name !=null">
+					and name=#{name}
+				</when>
+				<when test="name == 홍길동">
+					and id=1
+				</when>
+				<otherwise>
+					and id=2
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<update id="updateMember" parameterType="member">
+
+	</update>
+	<delete id="deleteMember" parameterType="string">
+
+	</delete>
+</mapper>

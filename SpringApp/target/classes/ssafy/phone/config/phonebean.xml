@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="galaxy" class="ssafy.product.GalaxyFold">
+<constructor-arg name="price" value="100"></constructor-arg>
+<constructor-arg name="cam" ref="samcam"></constructor-arg>
+</bean>
+<bean id="apple" class="ssafy.product.ApplePhone">
+<constructor-arg name="price" value="200"></constructor-arg>
+<constructor-arg name="cam" ref="samcam"></constructor-arg>
+<!-- 메소드 이용 방법 property -->
+<!-- setPrice의 인자로 들어가 P는 대문자!! -->
+<property name="price" value="88"></property>
+<property name="cam" ref="cannoncam"></property>
+</bean>
+<bean id="cannoncam" class="ssafy.product.CannonCamera"></bean>
+<bean id="samcam" class="ssafy.product.SamsungCamera"></bean>
+
+
+</beans>

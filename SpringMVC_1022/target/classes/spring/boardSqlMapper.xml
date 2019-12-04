@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board"> <!-- 뒤에 아이디가 붙으니까! 중요!  --> <!-- sql 오류만 터져도 404 터짐 -->
+  
+  <insert id="insert" parameterType="boardDto">
+  	insert into board(no, title, content)
+  	values(
+  		#{no}, #{title}, #{content}
+  	)
+  </insert> <!-- 여기서 파라미터 타입에는 configuration에 allias 준 값을 주면 됨 -->
+  
+  <select id="selectlist" resultType="boardDto"> <!-- select 에는 resulttype 필요함 -->
+  	select no, title, content from board
+  </select>
+  
+  <update id="update" parameterType="boardDto">
+  	update board set
+  		title = #{title},
+  		content = #{content}
+  	where no = #{no}
+  </update>
+  
+  <delete id="delete" parameterType="string">
+  	delete from board
+  	where no = #{no}
+  </delete>
+  
+  <select id="selectOne" parameterType="string" resultType="boardDto">
+  	select no, title, content
+  	from board
+  	where no = #{no}
+  </select>
+  
+</mapper>

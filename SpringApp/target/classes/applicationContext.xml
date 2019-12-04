@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+<!-- Member mem=new Member 
+class:객체 생성할 클래스
+id:변수명
+scope:객체생성범위 
+	singleton:기본 객체를 하나만 생성하여 재사용
+	prototype: 요구할때마다 객체생성됨
+	request,session: 웹인 경우 객체생성 범위
+lazy-init: scope이 singleton인 경우
+	false:container가 생성될때 객체생성
+	true: getBean() 객체추출 객체생성
+객체 소멸할 때 호출할 메소드 지정 가능
+	-->
+	<bean id="mem" class="app.MemberImpl" 
+	scope="prototype" 
+	lazy-init="true"
+	init-method="init"
+	destroy-method="destory">
+	<!-- 생성자의 0번째 인덱스에 value로 값을 준다 -->
+	<constructor-arg index="0" value="고길동"></constructor-arg>
+	<constructor-arg name="age" value="42"></constructor-arg>
+	<constructor-arg index="2" value="쌍문동"></constructor-arg>
+	<constructor-arg index="3" ref="bigmouse"></constructor-arg>
+	</bean>
+<bean id="bigmouse" class="app.BigMouse">
+<constructor-arg name="name" value="임준형"></constructor-arg>
+</bean>
+</beans>

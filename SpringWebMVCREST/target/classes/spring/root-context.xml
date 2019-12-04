@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<mvc:annotation-driven />
+	<context:annotation-config />
+
+	<!-- Database Connection Pool을 위한 DataSource 설정 -->
+	<context:property-placeholder location=""/>
+	
+	<!-- datasource의 이름이 id값 -->
+	<bean class="org.apache.commons.dbcp.BasicDataSource"
+		id="datasource" destroy-method="close">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://127.0.0.1:3306/springweb?serverTimezone=UTC&amp;useUniCode=yes&amp;characterEncoding=UTF-8"></property>
+		<property name="username" value="ssafy" />
+		<property name="password" value="ssafy" />
+		<property name="maxActive" value="20" />
+	</bean>
+
+	<!-- MyBatis -->
+	<!-- 해당 클래스를 id이름으로 객체 생성하겠다! 뜻이야 =>id를 변수명!이라고 생각해 위의 datasource를 인자로 넣어서=> 
+		datasource를 사용하는 myBatis => setDatasource라는 내장함수가 받게된다 -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		id="sqlSessionFactory">
+		<property name="dataSource" ref="datasource"></property>
+		<!-- MyBatis 설정파일(xml) 등록 setConfigLocation 함수에(name) myBatis 설정 xml파일(value)을 
+			넘긴다. -->
+		<property name="configLocation"
+			value="classpath:spring/SqlMapConfig.xml"></property>
+	</bean>
+
+	<!-- sqlSession -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate"
+		id="sqlSession">
+		<!-- 생성자에 값 넣는 부분 -->
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	
+	<!-- ApplicationCnfig에서의 방식과 같은 방법이다
+	<bean class="edu.ssafy.dto.BoardDto"/> -->
+</beans>
